@@ -4,7 +4,7 @@ package com.maven.nexttargetarea;
  * Hello world!
  *
  */
-public class App 
+public class NextTargetAreaApp 
 {
     public static void main( String[] args )
     {
