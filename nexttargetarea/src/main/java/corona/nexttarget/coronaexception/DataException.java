@@ -1,4 +1,4 @@
-package corona.nexttarget.Exception.definition;
+package corona.nexttarget.coronaexception;
 
 public class DataException extends RuntimeException {
 	  String details;

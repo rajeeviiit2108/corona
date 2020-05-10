@@ -1,4 +1,4 @@
-package corona.nexttarget.Exception.definition;
+package corona.nexttarget.coronaexception;
 
 public class DatabaseException extends RuntimeException{
 	String details;
