@@ -1,13 +1,14 @@
 package corona.nexttargetarea.app;
 
-/**
- * Hello world!
- *
- */
+import corona.nexttargetarea.impl.CsvOperationITravelType;
+import corona.nexttargetarea.interfaces.CsvOperation;
+import corona.nexttargetarea.util.NextTargetAreaAppOperations;
+
 public class NextTargetAreaApp 
 {
     public static void main( String[] args )
     {
-    System.out.println("test");
+    	CsvOperation csvOperationforTravelData=new CsvOperationITravelType();
+    	NextTargetAreaAppOperations.operationsOnTravelType(csvOperationforTravelData);
     }
 }
