@@ -8,15 +8,15 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import corona.nexttargetarea.csvdto.TravellerDataDto;
+
+import corona.nexttargetarea.csvdto.Social_MediaDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
-
-public class CsvOperationITravelType implements CsvOperation
-{
-	private static List<TravellerDataDto> travellerDataList=new ArrayList<>();
+public class CsvOperationSocialMedia implements CsvOperation {
+	
+	private static List<Social_MediaDto> socialMedia=new ArrayList<>();
 	@Override
 	public void readCsvFile(String filePath, String fileName) 
 	{
@@ -25,45 +25,48 @@ public class CsvOperationITravelType implements CsvOperation
 	    { 
 	        FileReader fileReader = new FileReader(filePath+fileName); 
 	        csvReader = new CSVReader(fileReader);
-	        TravellerDataDto travellerDataDto=null;
+	        Social_MediaDto socialMediaDto=null;
 	        Object[] nextRecord; 
 	        nextRecord = csvReader.readNext();
 	        while ((nextRecord = csvReader.readNext()) != null) 
 	        {
-	        	travellerDataDto=new TravellerDataDto();
+	        	socialMediaDto=new Social_MediaDto();
 	        	if(nextRecord[0]!=null)
 	        	{
-	        	travellerDataDto.setAdharId((String)nextRecord[0]);
+	        		socialMediaDto.setAdhar_id((String)nextRecord[0]);
 	        	}
 	        	if(nextRecord[1]!=null)
 	        	{
-	        	travellerDataDto.setPassportNo((String)nextRecord[1]);
+	        		socialMediaDto.setMobile_no((String)nextRecord[1]);
 	        	}
 	        	if(nextRecord[2]!=null)
 	        	{
-	        	travellerDataDto.setIsDomesticTravel((String)nextRecord[2]);
+	        		socialMediaDto.setEmail_id((String)nextRecord[2]);
+	        	}
+	        	if(nextRecord[3]!=null)
+	        	{
+	        		socialMediaDto.setMedia_post((String)nextRecord[3]);
 	        	}
 	        	try 
 	        	{
-	        	if(nextRecord[3]!=null)
+	        	if(nextRecord[4]!=null)
 		        {
-	        	travellerDataDto.setDateOfJourney(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
-		        }	
-				} 
+	        		socialMediaDto.setPost_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[4]));
+		        }					} 
 	        	catch (ParseException e) 
 	        	{
 					e.printStackTrace();
 				}
-	        	travellerDataList.add(travellerDataDto);
+	        	socialMedia.add(socialMediaDto);
 	        } 
 	    } 
 	    catch (IOException e) 
 	    { 
-	       throw new FileResolutionException("Unable to read the data from Travel_Type.csv", "Unable to read the data from Travel_Type.csv"); 
+	       throw new FileResolutionException("Unable to read the data from Social_Media_Post.csv", "Unable to read the data from Social_Media_Post.csv"); 
 	    } 
 	    catch (CsvValidationException e) 
 	    {
-			throw new CsvFileReadException("Unable to validate the Travel_Type csv", "Unable to validate the Travel_Type csv");
+			throw new CsvFileReadException("Unable to validate the Social_Media_Post csv", "Unable to validate the Social_Media_Post csv");
 		}
 	    finally
 	    {
@@ -83,13 +86,19 @@ public class CsvOperationITravelType implements CsvOperation
 	@Override
 	public void pushDataToStaggingTable() 
 	{
-		for(TravellerDataDto dto: travellerDataList)
+		for(Social_MediaDto dto:socialMedia )
 		{
-			System.out.println("AAdhar id is:::"+ dto.getAdharId() +"\t");
-			System.out.println("Passport number is:::"+ dto.getPassportNo() +"\t");
-			System.out.println("Is Domestic travel is:::"+ dto.getIsDomesticTravel() +"\t");
-			System.out.println("Date of Journey is:::"+ dto.getDateOfJourney());
+			System.out.println("AAdhar id is:::"+ dto.getAdhar_id() +"\t");
+			System.out.println("Mobile No. is:::"+ dto.getMobile_no() +"\t");
+			System.out.println("E-mail id is:::"+ dto.getEmail_id() +"\t");
+			System.out.println("Media Post is:::"+ dto.getMedia_post() +"\t");
+			System.out.println("Post Date is:::"+ dto.getPost_date() +"\t");
 			System.out.println("--------------------------------------------");
 		}	
 	}
 }
+
+
+
+
+

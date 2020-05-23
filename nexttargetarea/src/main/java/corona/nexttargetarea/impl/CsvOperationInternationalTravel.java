@@ -8,15 +8,16 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import corona.nexttargetarea.csvdto.TravellerDataDto;
+
+import corona.nexttargetarea.csvdto.InternationalTravelDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 
-public class CsvOperationITravelType implements CsvOperation
-{
-	private static List<TravellerDataDto> travellerDataList=new ArrayList<>();
+public class CsvOperationInternationalTravel implements CsvOperation {
+	
+	private static List<InternationalTravelDto> internationalTravelDataList=new ArrayList<>();
 	@Override
 	public void readCsvFile(String filePath, String fileName) 
 	{
@@ -25,45 +26,49 @@ public class CsvOperationITravelType implements CsvOperation
 	    { 
 	        FileReader fileReader = new FileReader(filePath+fileName); 
 	        csvReader = new CSVReader(fileReader);
-	        TravellerDataDto travellerDataDto=null;
+	        InternationalTravelDto internationaltravelDto=null;
 	        Object[] nextRecord; 
 	        nextRecord = csvReader.readNext();
 	        while ((nextRecord = csvReader.readNext()) != null) 
 	        {
-	        	travellerDataDto=new TravellerDataDto();
+	        	internationaltravelDto=new InternationalTravelDto();
 	        	if(nextRecord[0]!=null)
 	        	{
-	        	travellerDataDto.setAdharId((String)nextRecord[0]);
+	        		internationaltravelDto.setPassport_no((String)nextRecord[0]);
 	        	}
 	        	if(nextRecord[1]!=null)
 	        	{
-	        	travellerDataDto.setPassportNo((String)nextRecord[1]);
+	        		internationaltravelDto.setIs_domestic_travel((String)nextRecord[1]);
 	        	}
 	        	if(nextRecord[2]!=null)
 	        	{
-	        	travellerDataDto.setIsDomesticTravel((String)nextRecord[2]);
+	        		internationaltravelDto.setTravel_history((String)nextRecord[2]);
 	        	}
 	        	try 
 	        	{
 	        	if(nextRecord[3]!=null)
 		        {
-	        	travellerDataDto.setDateOfJourney(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
-		        }	
+	        		internationaltravelDto.setTravel_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
+		        }
+	        	if(nextRecord[4]!=null)
+	        	{
+	        		internationaltravelDto.setTravel_from((String)nextRecord[4]);
+	        	}
 				} 
 	        	catch (ParseException e) 
 	        	{
 					e.printStackTrace();
 				}
-	        	travellerDataList.add(travellerDataDto);
+	        	internationalTravelDataList.add(internationaltravelDto);
 	        } 
 	    } 
 	    catch (IOException e) 
 	    { 
-	       throw new FileResolutionException("Unable to read the data from Travel_Type.csv", "Unable to read the data from Travel_Type.csv"); 
+	       throw new FileResolutionException("Unable to read the data from International_Travel.csv", "Unable to read the data from International_Travel.csv"); 
 	    } 
 	    catch (CsvValidationException e) 
 	    {
-			throw new CsvFileReadException("Unable to validate the Travel_Type csv", "Unable to validate the Travel_Type csv");
+			throw new CsvFileReadException("Unable to validate the International_Travel csv", "Unable to validate the International_Travel csv");
 		}
 	    finally
 	    {
@@ -83,13 +88,20 @@ public class CsvOperationITravelType implements CsvOperation
 	@Override
 	public void pushDataToStaggingTable() 
 	{
-		for(TravellerDataDto dto: travellerDataList)
+		for(InternationalTravelDto dto: internationalTravelDataList)
 		{
-			System.out.println("AAdhar id is:::"+ dto.getAdharId() +"\t");
-			System.out.println("Passport number is:::"+ dto.getPassportNo() +"\t");
-			System.out.println("Is Domestic travel is:::"+ dto.getIsDomesticTravel() +"\t");
-			System.out.println("Date of Journey is:::"+ dto.getDateOfJourney());
+			System.out.println("Passport number is:::"+ dto.getPassport_no() +"\t");
+			System.out.println(" Is Domestic travel is:::"+ dto.getIs_domestic_travel() +"\t");
+			System.out.println(" Travel History is:::"+ dto.getTravel_history() +"\t");
+			System.out.println("Travel Date is:::"+ dto.getTravel_date() +"\t");
+			System.out.println("Travel From is:::"+ dto.getTravel_from() +"\t");
 			System.out.println("--------------------------------------------");
 		}	
 	}
 }
+
+
+	
+	
+
+
