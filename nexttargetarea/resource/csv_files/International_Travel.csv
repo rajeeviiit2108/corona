@@ -1,0 +1,52 @@
+passport_no,is_domestic_travel,travel_history,travel_date,travel_from
+120000001,n,"Australia, newyork",2020-04-05,India
+120000003,n,"London, Spain ",2020-04-05,India
+120000004,n,"Pakistan, japan",2020-04-28,India
+120000005,n,"Nepal, USA ",2020-05-06,India
+120000006,n,"USA, Russia ",2020-04-02,India
+120000007,n,"England, Bangladesh, Nepal ",2020-04-21,India
+120000008,n,"USA, London ",2020-03-28,India
+120000009,n,"Spain, London, USA ",2020-04-27,India
+120000002,n,"USA, Nepal ",2020-04-26,India
+120000010,n,"USA, Russia ",2020-04-28,India
+120000011,n,"England, Bangladesh, Nepal ",2020-05-06,India
+120000012,n,"USA, Russia ",2020-03-28,India
+120000013,n,"England, Bangladesh, Nepal ",2020-04-27,India
+120000014,n,"London, Spain ",2020-04-26,India
+120000015,n,"Pakistan, japan",2020-05-06,India
+120000016,n,"Nepal, USA ",2020-04-28,India
+120000017,n,"USA, Russia ",2020-05-06,India
+120000018,n,"Spain, London, USA ",2020-03-28,India
+120000019,n,"USA, Nepal ",2020-04-27,India
+120000020,n,"USA, Russia ",2020-04-26,India
+120000021,n,"Spain, London, USA ",2020-04-28,India
+120000022,n,"USA, Nepal ",2020-05-06,India
+120000023,n,"USA, Russia ",2020-03-28,India
+120000024,n,"Italy, china, Russia ",2020-04-27,India
+120000025,n,"china, Italy ",2020-04-26,India
+120000026,n,"Russia, china ",2020-05-06,India
+120000027,n,"Pakistan, japan",2020-03-28,India
+120080027,n,"Nepal, USA ",2020-04-27,India
+120006582,n,"USA, Russia ",2020-04-26,India
+120006583,n,"Spain, London, USA ",2020-05-06,India
+120006584,n,"USA, Russia ",2020-04-28,India
+120006585,n,"Italy, china, Russia ",2020-05-06,India
+120006586,n,"china, Italy ",2020-03-28,India
+120006587,n,"Nepal, USA ",2020-04-27,India
+120006588,n,"Pakistan, japan",2020-04-26,India
+120006589,n,"Nepal, USA ",2020-04-28,India
+120006590,n,"USA, Russia ",2020-05-06,India
+120006591,n,"USA, Russia ",2020-04-02,India
+120006592,n,"Pakistan, japan",2020-04-22,India
+120006593,n,"Nepal, USA ",2020-04-24,India
+120006594,n,"USA, Russia ",2020-05-06,India
+128006554,n,"Italy, china, Russia ",2020-04-28,India
+128006555,n,"china, Italy ",2020-05-06,India
+128006556,n,"USA, Russia ",2020-04-28,India
+128006557,n,"USA, Russia ",2020-05-06,India
+128006558,n,"Pakistan, japan",2020-04-28,India
+128006559,n,"USA, Russia ",2020-05-06,India
+128006560,n,"Italy, china, Russia ",2020-04-22,India
+128006532,n,"china, Italy ",2020-04-24,India
+128006562,n,"USA, Russia ",2020-04-24,India
+128006563,n,"Pakistan, japan",2020-04-22,India

@@ -1,0 +1,50 @@
+adhar_id,is_domestic_travel,travel_history,travel_date,travel_from
+400030443344,y,"meerut, saharanpur, Delhi ",2020-04-05,Delhi
+400030443345,y,"bijnore, meerut, meerapur",2020-04-05,Bangalore
+400030443346,y,"meerut, Delhi, Bangalore ",2020-04-28,kolkata
+400030443347,y,"noida, Delhi",2020-05-06,Bangalore
+400030443348,y,"gaaziabad, delhi",2020-04-02,mumbai
+400030443349,y,"Bangalore, kolkata, Mumbai ",2020-04-21,Delhi
+400030443350,y,"Hyderabad, hariyana ",2020-03-28,Delhi
+400030443351,y,"meerapur, saharanpur",2020-04-27,Delhi
+400030443352,y,"bijnore, Delhi ",2020-04-26,Delhi
+400030443353,y,"baghpat,  mujjafarnagar ",2020-04-28,Delhi
+400030443354,y,"haryana, mumbai",2020-05-06,Delhi
+400030443355,y,"faridabad, roorkee, rajasthan ",2020-03-28,Bangalore
+400030443356,y,"rajasthan, haryana",2020-04-27,Bangalore
+400030443357,y,"Delhi, kolkata",2020-04-26,Bangalore
+400030443358,y,"baghpat,  mujjafarnagar ",2020-05-06,Bangalore
+400030443359,y,"haryana, mumbai",2020-04-28,Hyderabad
+400030443360,n,"bijnore, meerut, meerapur",2020-05-06,Delhi
+400030453362,n,"meerut, Delhi, Bangalore ",2020-03-28,Delhi
+400030453363,n,"noida, Delhi",2020-04-27,Delhi
+400030453364,y,"gaaziabad, delhi",2020-04-26,Hyderabad
+400030453365,y,"Bangalore, kolkata, Mumbai ",2020-04-28,kolkata
+400030453366,y,"Punjab, haryana",2020-05-06,kolkata
+400030453367,y,"haryana, punjab",2020-03-28,mumbai
+400030453368,y,"bijnore, Delhi ",2020-04-27,mumbai
+400030453369,y,"baghpat,  mujjafarnagar ",2020-04-26,mumbai
+400030443361,y,"Punjab, haryana",2020-05-06,Delhi
+400030443362,y,"haryana, punjab",2020-03-28,Delhi
+400030443363,y,"Punjab, haryana",2020-04-27,Delhi
+400030443364,n,"haryana, punjab",2020-04-26,Delhi
+400030443365,n,"Bangalore, kolkata, Mumbai ",2020-05-06,Delhi
+400030443366,n,"noida, Delhi",2020-04-28,kolkata
+400030443367,y,"gaaziabad, delhi",2020-05-06,kolkata
+400030443368,y,"Bangalore, kolkata, Mumbai ",2020-03-28,kolkata
+400030443369,y,"Punjab, haryana",2020-04-27,mumbai
+400030443370,y,"haryana, punjab",2020-04-26,mumbai
+400030443371,y,"bijnore, Delhi ",2020-04-28,mumbai
+400030443372,y,"baghpat,  mujjafarnagar ",2020-05-06,mumbai
+400030443373,y,"Punjab, haryana",2020-04-02,Delhi
+400030443374,y,"haryana, punjab",2020-04-22,Delhi
+400030443375,y,"gaaziabad, delhi",2020-04-24,Delhi
+400030443376,y,"Bangalore, kolkata, Mumbai ",2020-05-06,Delhi
+400030443377,y,"Punjab, haryana",2020-04-28,Bangalore
+400032583378,y,"haryana, punjab",2020-05-06,Bangalore
+400032583379,y,"baghpat,  mujjafarnagar ",2020-04-28,Hyderabad
+400032583380,y,"haryana, mumbai",2020-05-06,Hyderabad
+400032583381,y,"meerapur, saharanpur",2020-04-28,Hyderabad
+400032583382,y,"bijnore, Delhi ",2020-05-06,Hyderabad
+400032583383,y,"baghpat,  mujjafarnagar ",2020-04-22,Hyderabad
+400032583384,y,"meerapur, saharanpur",2020-04-24,Hyderabad
