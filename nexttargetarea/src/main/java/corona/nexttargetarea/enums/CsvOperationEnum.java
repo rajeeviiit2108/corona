@@ -8,7 +8,10 @@ public enum CsvOperationEnum {
 	HOSPITAL_DATA_CSV("Hospital_Data.csv"),
 	INTERNATIONAL_TRAVEL_CSV("International_Travel.csv"),
 	SOCIAL_MEDIA_POST_CSV("Social_Media_Post.csv"),
-	INTERNET_DATA_CSV("Internet_Data.csv");
+	INTERNET_DATA_CSV("Internet_Data.csv"),
+	MYSQL_DB_USER("root"),
+	MYSQL_DB_PASSWORD("root");
+	
 	
 	private String csvInformation; 
 	 public String getCsvInformation() {

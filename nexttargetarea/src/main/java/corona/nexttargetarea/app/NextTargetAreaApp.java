@@ -6,32 +6,22 @@ import corona.nexttargetarea.impl.CsvOperationITravelType;
 import corona.nexttargetarea.impl.CsvOperationInternationalTravel;
 import corona.nexttargetarea.impl.CsvOperationInternetData;
 import corona.nexttargetarea.impl.CsvOperationSocialMedia;
-import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaAppOperations;
 
 public class NextTargetAreaApp 
 {
     public static void main( String[] args )
     {
-    	CsvOperation csvOperationForHospitalData=new CsvOperationHospitalData();
-        NextTargetAreaAppOperations.operationsOnHospitalData(csvOperationForHospitalData);
-
-    	
-    	CsvOperation csvOperationforTravelData=new CsvOperationITravelType();
-        NextTargetAreaAppOperations.operationsOnTravelType(csvOperationforTravelData);
+        NextTargetAreaAppOperations.operationsOnTravelType(new CsvOperationITravelType());
         
-    	CsvOperation csvOperationforDomesticData=new CsvOperationDomesticTravel();
-        NextTargetAreaAppOperations.operationsOnDomesticTravel(csvOperationforDomesticData);
+        NextTargetAreaAppOperations.operationsOnHospitalData(new CsvOperationHospitalData());
         
-    	CsvOperation csvOperationforInternationaltravel=new CsvOperationInternationalTravel();
-        NextTargetAreaAppOperations.operationsOnInternationalTravel(csvOperationforInternationaltravel);
+        NextTargetAreaAppOperations.operationsOnDomesticTravel(new CsvOperationDomesticTravel());
         
-    	CsvOperation csvOperationforInternetData=new CsvOperationInternetData();
-        NextTargetAreaAppOperations.operationsOnInternetData(csvOperationforInternetData);
+        NextTargetAreaAppOperations.operationsOnInternationalTravel(new CsvOperationInternationalTravel());
         
-    	CsvOperation csvOperationforSocialMediaData=new CsvOperationSocialMedia();
-        NextTargetAreaAppOperations.operationsOnSocialMediaData(csvOperationforSocialMediaData);
+        NextTargetAreaAppOperations.operationsOnInternetData(new CsvOperationInternetData());
         
-    	
+        NextTargetAreaAppOperations.operationsOnSocialMediaData(new CsvOperationSocialMedia());
     }
 }
