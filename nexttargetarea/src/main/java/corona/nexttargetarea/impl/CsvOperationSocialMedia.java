@@ -2,6 +2,9 @@ package corona.nexttargetarea.impl;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.Social_MediaDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
+import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 public class CsvOperationSocialMedia implements CsvOperation {
@@ -86,16 +90,39 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	@Override
 	public void pushDataToStaggingTable() 
 	{
+		PreparedStatement stmt=null;
+		Connection connection=DataBaseConnection.createConnection();
+		String socialMediaSql="insert into Social_Media_Post_STG"
+				+ "(adhar_id, mobile_no, email_id, media_post, post_date)"
+				+ "values(?,?,?,?,?)";
+	try 
+	{
+			stmt=connection.prepareStatement(socialMediaSql);
 		for(Social_MediaDto dto:socialMedia )
 		{
-			System.out.println("AAdhar id is:::"+ dto.getAdhar_id() +"\t");
-			System.out.println("Mobile No. is:::"+ dto.getMobile_no() +"\t");
-			System.out.println("E-mail id is:::"+ dto.getEmail_id() +"\t");
-			System.out.println("Media Post is:::"+ dto.getMedia_post() +"\t");
-			System.out.println("Post Date is:::"+ dto.getPost_date() +"\t");
-			System.out.println("--------------------------------------------");
+			stmt.setString(1, dto.getAdhar_id());
+			stmt.setString(2, dto.getMobile_no());
+			stmt.setString(3, dto.getEmail_id());
+			stmt.setString(4, dto.getMedia_post());
+			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPost_date())));
+			stmt.executeUpdate();
 		}	
 	}
+	catch (SQLException e) 
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			stmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
+}	
+	
 }
 
 

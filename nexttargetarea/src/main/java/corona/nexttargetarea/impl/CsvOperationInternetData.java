@@ -2,6 +2,9 @@ package corona.nexttargetarea.impl;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.InternetDataDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
+import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 
 public class CsvOperationInternetData implements CsvOperation{
@@ -83,16 +87,39 @@ public class CsvOperationInternetData implements CsvOperation{
 	@Override
 	public void pushDataToStaggingTable() 
 	{
+		PreparedStatement stmt=null;
+		Connection connection=DataBaseConnection.createConnection();
+		String internetDataSql="insert into Internet_Data_STG"
+				+ "(email_id, information, link, place_name, no_of_infected_people)"
+				+ "values(?,?,?,?,?)";
+	try 
+	{
+			stmt=connection.prepareStatement(internetDataSql);
 		for(InternetDataDto dto:internetData )
 		{
-			System.out.println("E-mail id is:::"+ dto.getEmail_id() +"\t");
-			System.out.println("Information is:::"+ dto.getInformation() +"\t");
-			System.out.println("Link is:::"+ dto.getLink() +"\t");
-			System.out.println("Place Name is:::"+ dto.getPlace_name() +"\t");
-			System.out.println("No. of Infected People is:::"+ dto.getNo_of_infected_people() +"\t");
-            System.out.println("--------------------------------------------");
+			stmt.setString(1, dto.getEmail_id());
+			stmt.setString(2, dto.getInformation());
+			stmt.setString(3, dto.getLink());
+			stmt.setString(4, dto.getPlace_name());
+			stmt.setString(5, dto.getNo_of_infected_people());
+			stmt.executeUpdate();
 		}	
 	}
+	catch (SQLException e) 
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			stmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+ }
 }
+
 
 

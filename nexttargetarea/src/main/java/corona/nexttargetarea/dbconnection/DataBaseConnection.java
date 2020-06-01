@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 public class DataBaseConnection {
 
 	private static Connection _connection;
+	private static String pass="MyPrivacy@555";
 	private DataBaseConnection()
 	{
 		
@@ -24,7 +25,7 @@ public class DataBaseConnection {
 		    			if(_connection==null)
 		    			{
 		    				_connection=DriverManager.getConnection(  
-		    					    "jdbc:mysql://localhost:3306/nexttargetarea?autoReconnect=true&useSSL=false","root","Root");
+		    					    "jdbc:mysql://localhost:3306/nexttargetarea?autoReconnect=true&useSSL=false","root",pass);
 		    			}
 				    }
 		    	}

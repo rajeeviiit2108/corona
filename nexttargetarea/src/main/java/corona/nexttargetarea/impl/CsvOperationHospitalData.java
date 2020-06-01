@@ -2,6 +2,9 @@ package corona.nexttargetarea.impl;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.HospitalDataDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
+import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 public class CsvOperationHospitalData implements CsvOperation {
@@ -85,14 +89,35 @@ public class CsvOperationHospitalData implements CsvOperation {
 	@Override
 	public void pushDataToStaggingTable() 
 	{
+		PreparedStatement stmt=null;
+		Connection connection=DataBaseConnection.createConnection();
+		String hospitalDataSql="insert into Hospital_Data_STG"
+				+ "(adhar_id, passport_no, patient_disease_history, patient_admitted_date, patient_discharged_date)"
+				+ "values(?,?,?,?,?)";
+	try 
+	{
+			stmt=connection.prepareStatement(hospitalDataSql);
 		for(HospitalDataDto dto: hospitalDataList)
 		{
-			System.out.println("AAdhar id is:::"+ dto.getAdhar_id() +"\t");
-			System.out.println("Passport number is:::"+ dto.getPassport_no() +"\t");
-			System.out.println("Patient Disease History is:::"+ dto.getPatient_disease_history() +"\t");
-			System.out.println("Patient admitted date is:::"+ dto.getPatient_admitted_date() +"\t");
-			System.out.println("Patient discharged date is:::"+ dto.getPatient_discharged_date() +"\t");
-            System.out.println("--------------------------------------------");
+			stmt.setString(1, dto.getAdhar_id());
+			stmt.setString(2, dto.getPassport_no());
+			stmt.setString(3, dto.getPatient_disease_history());
+			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_admitted_date())));
+			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_discharged_date())));
 		}	
 	}
+	catch (SQLException e) 
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			stmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
+	}

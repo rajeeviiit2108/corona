@@ -2,6 +2,9 @@ package corona.nexttargetarea.impl;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.InternationalTravelDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
+import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 
@@ -88,17 +92,41 @@ public class CsvOperationInternationalTravel implements CsvOperation {
 	@Override
 	public void pushDataToStaggingTable() 
 	{
+
+		PreparedStatement stmt=null;
+		Connection connection=DataBaseConnection.createConnection();
+		String internationalTravelSql="insert into International_Travel_STG"
+				+ "(passport_no, is_domestic_travel, travel_history, travel_date, travel_from)"
+				+ "values(?,?,?,?,?)";
+	try 
+	{
+			stmt=connection.prepareStatement(internationalTravelSql);
 		for(InternationalTravelDto dto: internationalTravelDataList)
 		{
-			System.out.println("Passport number is:::"+ dto.getPassport_no() +"\t");
-			System.out.println(" Is Domestic travel is:::"+ dto.getIs_domestic_travel() +"\t");
-			System.out.println(" Travel History is:::"+ dto.getTravel_history() +"\t");
-			System.out.println("Travel Date is:::"+ dto.getTravel_date() +"\t");
-			System.out.println("Travel From is:::"+ dto.getTravel_from() +"\t");
-			System.out.println("--------------------------------------------");
+			stmt.setString(1, dto.getPassport_no());
+			stmt.setString(2, dto.getIs_domestic_travel());
+			stmt.setString(3, dto.getTravel_history());
+			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getTravel_date())));
+			stmt.setString(5, dto.getTravel_from());
+			stmt.executeUpdate();
 		}	
 	}
+	catch (SQLException e) 
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			stmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
+	
 }
+	}
 
 
 	
