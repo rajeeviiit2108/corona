@@ -1,4 +1,4 @@
-package corona.nexttargetarea.impl;
+package corona.nexttargetarea.csvoperationimpl;
 
 public class CsvOperationOnDomesticTravel {
 

@@ -1,5 +1,4 @@
-package corona.nexttargetarea.impl;
-
+package corona.nexttargetarea.csvoperationimpl;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,16 +11,14 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-
-import corona.nexttargetarea.csvdto.DomesticTravelDto;
+import corona.nexttargetarea.csvdto.HospitalDataDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
 import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
-public class CsvOperationDomesticTravel implements CsvOperation {
-	
-	private static List<DomesticTravelDto> domesticTravelList=new ArrayList<>();
+public class CsvOperationHospitalData implements CsvOperation {
+	private static List<HospitalDataDto> hospitalDataList=new ArrayList<>();
 	@Override
 	public void readCsvFile(String filePath, String fileName) 
 	{
@@ -30,49 +27,49 @@ public class CsvOperationDomesticTravel implements CsvOperation {
 	    { 
 	        FileReader fileReader = new FileReader(filePath+fileName); 
 	        csvReader = new CSVReader(fileReader);
-	        DomesticTravelDto domestictravelDto=null;
+	        HospitalDataDto hospitalDataDto=null;
 	        Object[] nextRecord; 
 	        nextRecord = csvReader.readNext();
 	        while ((nextRecord = csvReader.readNext()) != null) 
 	        {
-	        	domestictravelDto=new DomesticTravelDto();
+	        	hospitalDataDto=new HospitalDataDto();
 	        	if(nextRecord[0]!=null)
 	        	{
-	        		domestictravelDto.setAdhar_id((String)nextRecord[0]);
+	        	hospitalDataDto.setAdhar_id((String)nextRecord[0]);
 	        	}
 	        	if(nextRecord[1]!=null)
 	        	{
-	        		domestictravelDto.setIs_domestic_travel((String)nextRecord[1]);
+	        	hospitalDataDto.setPassport_no((String)nextRecord[1]);
 	        	}
 	        	if(nextRecord[2]!=null)
 	        	{
-	        		domestictravelDto.setTravel_history((String)nextRecord[2]);
+	        	hospitalDataDto.setPatient_disease_history((String)nextRecord[2]);
 	        	}
 	        	try 
 	        	{
 	        	if(nextRecord[3]!=null)
 		        {
-	        		domestictravelDto.setTravel_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
+	             hospitalDataDto.setPatient_admitted_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
 		        }	
 	        	if(nextRecord[4]!=null)
 	        	{
-	        		domestictravelDto.setTravel_from((String)nextRecord[4]);
+	        	hospitalDataDto.setPatient_discharged_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[4]));
 	        	}
 				} 
 	        	catch (ParseException e) 
 	        	{
 					e.printStackTrace();
 				}
-	        	domesticTravelList.add(domestictravelDto);
+	        	hospitalDataList.add(hospitalDataDto);
 	        } 
 	    } 
 	    catch (IOException e) 
 	    { 
-	       throw new FileResolutionException("Unable to read the data from Domestic-Travel.csv", "Unable to read the data from Domestic-Travel.csv"); 
+	       throw new FileResolutionException("Unable to read the data from Hospital_Data.csv", "Unable to read the data from Hospital_Data.csv"); 
 	    } 
 	    catch (CsvValidationException e) 
 	    {
-			throw new CsvFileReadException("Unable to validate the Domestic-Travel csv", "Unable to validate the Domestic-Travel csv");
+			throw new CsvFileReadException("Unable to validate the Hospital_Data csv", "Unable to validate the Hospital_Data csv");
 		}
 	    finally
 	    {
@@ -90,40 +87,35 @@ public class CsvOperationDomesticTravel implements CsvOperation {
 	}
 	
 	@Override
-	public void pushDataToStaggingTable() 
+	public void pushDataToStaggingTable(Connection connection) 
 	{
 		PreparedStatement stmt=null;
-		Connection connection=DataBaseConnection.createConnection();
-		String domesticTravelSql="insert into Domestic_Travel_STG"
-				+ "(adhar_id, is_domestic_travel, travel_history, travel_date, travel_from)"
+		String hospitalDataSql="insert into Hospital_Data_STG"
+				+ "(adhar_id, passport_no, patient_disease_history, patient_admitted_date, patient_discharged_date)"
 				+ "values(?,?,?,?,?)";
-		try 
+	try 
+	{
+		stmt=connection.prepareStatement(hospitalDataSql);
+		for(HospitalDataDto dto: hospitalDataList)
 		{
-			stmt=connection.prepareStatement(domesticTravelSql);
-		for(DomesticTravelDto dto:domesticTravelList )
-		{
-			
 			stmt.setString(1, dto.getAdhar_id());
-			stmt.setString(2, dto.getIs_domestic_travel());
-			stmt.setString(3, dto.getTravel_history());
-			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getTravel_date())));
-			stmt.setString(5, dto.getTravel_from());
+			stmt.setString(2, dto.getPassport_no());
+			stmt.setString(3, dto.getPatient_disease_history());
+			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_admitted_date())));
+			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_discharged_date())));
 		}	
 	}
-		catch (SQLException e) 
-		{
+	catch (SQLException e) 
+	{
+		e.printStackTrace();
+	}
+	finally
+	{
+		try {
+			stmt.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		finally
-		{
-			try {
-				stmt.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-         }
 	}
 }
-
-
+	}

@@ -1,4 +1,4 @@
-package corona.nexttargetarea.impl;
+package corona.nexttargetarea.csvoperationimpl;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,15 +12,16 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-import corona.nexttargetarea.csvdto.Social_MediaDto;
+import corona.nexttargetarea.csvdto.InternationalTravelDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
 import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
-public class CsvOperationSocialMedia implements CsvOperation {
+
+public class CsvOperationInternationalTravel implements CsvOperation {
 	
-	private static List<Social_MediaDto> socialMedia=new ArrayList<>();
+	private static List<InternationalTravelDto> internationalTravelDataList=new ArrayList<>();
 	@Override
 	public void readCsvFile(String filePath, String fileName) 
 	{
@@ -29,48 +30,49 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	    { 
 	        FileReader fileReader = new FileReader(filePath+fileName); 
 	        csvReader = new CSVReader(fileReader);
-	        Social_MediaDto socialMediaDto=null;
+	        InternationalTravelDto internationaltravelDto=null;
 	        Object[] nextRecord; 
 	        nextRecord = csvReader.readNext();
 	        while ((nextRecord = csvReader.readNext()) != null) 
 	        {
-	        	socialMediaDto=new Social_MediaDto();
+	        	internationaltravelDto=new InternationalTravelDto();
 	        	if(nextRecord[0]!=null)
 	        	{
-	        		socialMediaDto.setAdhar_id((String)nextRecord[0]);
+	        		internationaltravelDto.setPassport_no((String)nextRecord[0]);
 	        	}
 	        	if(nextRecord[1]!=null)
 	        	{
-	        		socialMediaDto.setMobile_no((String)nextRecord[1]);
+	        		internationaltravelDto.setIs_domestic_travel((String)nextRecord[1]);
 	        	}
 	        	if(nextRecord[2]!=null)
 	        	{
-	        		socialMediaDto.setEmail_id((String)nextRecord[2]);
-	        	}
-	        	if(nextRecord[3]!=null)
-	        	{
-	        		socialMediaDto.setMedia_post((String)nextRecord[3]);
+	        		internationaltravelDto.setTravel_history((String)nextRecord[2]);
 	        	}
 	        	try 
 	        	{
-	        	if(nextRecord[4]!=null)
+	        	if(nextRecord[3]!=null)
 		        {
-	        		socialMediaDto.setPost_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[4]));
-		        }					} 
+	        		internationaltravelDto.setTravel_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
+		        }
+	        	if(nextRecord[4]!=null)
+	        	{
+	        		internationaltravelDto.setTravel_from((String)nextRecord[4]);
+	        	}
+				} 
 	        	catch (ParseException e) 
 	        	{
 					e.printStackTrace();
 				}
-	        	socialMedia.add(socialMediaDto);
+	        	internationalTravelDataList.add(internationaltravelDto);
 	        } 
 	    } 
 	    catch (IOException e) 
 	    { 
-	       throw new FileResolutionException("Unable to read the data from Social_Media_Post.csv", "Unable to read the data from Social_Media_Post.csv"); 
+	       throw new FileResolutionException("Unable to read the data from International_Travel.csv", "Unable to read the data from International_Travel.csv"); 
 	    } 
 	    catch (CsvValidationException e) 
 	    {
-			throw new CsvFileReadException("Unable to validate the Social_Media_Post csv", "Unable to validate the Social_Media_Post csv");
+			throw new CsvFileReadException("Unable to validate the International_Travel csv", "Unable to validate the International_Travel csv");
 		}
 	    finally
 	    {
@@ -88,23 +90,23 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	}
 	
 	@Override
-	public void pushDataToStaggingTable() 
+	public void pushDataToStaggingTable(Connection connection) 
 	{
+
 		PreparedStatement stmt=null;
-		Connection connection=DataBaseConnection.createConnection();
-		String socialMediaSql="insert into Social_Media_Post_STG"
-				+ "(adhar_id, mobile_no, email_id, media_post, post_date)"
+		String internationalTravelSql="insert into International_Travel_STG"
+				+ "(passport_no, is_domestic_travel, travel_history, travel_date, travel_from)"
 				+ "values(?,?,?,?,?)";
 	try 
 	{
-			stmt=connection.prepareStatement(socialMediaSql);
-		for(Social_MediaDto dto:socialMedia )
+			stmt=connection.prepareStatement(internationalTravelSql);
+		for(InternationalTravelDto dto: internationalTravelDataList)
 		{
-			stmt.setString(1, dto.getAdhar_id());
-			stmt.setString(2, dto.getMobile_no());
-			stmt.setString(3, dto.getEmail_id());
-			stmt.setString(4, dto.getMedia_post());
-			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPost_date())));
+			stmt.setString(1, dto.getPassport_no());
+			stmt.setString(2, dto.getIs_domestic_travel());
+			stmt.setString(3, dto.getTravel_history());
+			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getTravel_date())));
+			stmt.setString(5, dto.getTravel_from());
 			stmt.executeUpdate();
 		}	
 	}
@@ -116,16 +118,16 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	{
 		try {
 			stmt.close();
-			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}	
-}	
 	
 }
+	}
 
 
-
+	
+	
 
 

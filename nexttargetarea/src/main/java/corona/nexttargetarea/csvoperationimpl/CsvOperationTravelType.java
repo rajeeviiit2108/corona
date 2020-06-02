@@ -1,4 +1,4 @@
-package corona.nexttargetarea.impl;
+package corona.nexttargetarea.csvoperationimpl;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 
-public class CsvOperationITravelType implements CsvOperation
+public class CsvOperationTravelType implements CsvOperation
 {
 	private static List<TravellerDataDto> travellerDataList=new ArrayList<>();
 	@Override
@@ -86,10 +86,9 @@ public class CsvOperationITravelType implements CsvOperation
 	}
 	
 	@Override
-	public void pushDataToStaggingTable() 
+	public void pushDataToStaggingTable(Connection connection) 
 	{
 		PreparedStatement stmt=null;
-		Connection connection=DataBaseConnection.createConnection();
 		String travelTypeSql="insert into Travel_Type_STG"
 				+ "(adhar_id, passport_no, is_domestic_travel, date_of_journey)"
 				+ "values(?,?,?,?)";
@@ -113,12 +112,9 @@ public class CsvOperationITravelType implements CsvOperation
 		{
 			try {
 				stmt.close();
-				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		
 	}
 }
