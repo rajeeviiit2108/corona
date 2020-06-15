@@ -2,6 +2,7 @@ package corona.nexttargetarea.app;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import corona.nexttargetarea.awscloud.StagingTableCreationOnDyanamoDB;
 import corona.nexttargetarea.csvoperationimpl.CsvOperationDomesticTravel;
 import corona.nexttargetarea.csvoperationimpl.CsvOperationHospitalData;
 import corona.nexttargetarea.csvoperationimpl.CsvOperationInternationalTravel;
@@ -19,6 +20,8 @@ public class NextTargetAreaApp
 	
     public static void main( String[] args )
     {
+    	awsStaggingTableCreation();
+    	
     	try
 		{
 			_connection=DataBaseConnection.createConnection();
@@ -50,5 +53,22 @@ public class NextTargetAreaApp
     private static void operationsPerformedOnStaggingData(Connection connection)
     {
     	NextTargetAreaStaggingOperations.operationsOnTravelTypeStagingData(new DataProcessingTravelType(),connection);
-}
+
+    }
+
+    private static void awsStaggingTableCreation()
+    {
+    	StagingTableCreationOnDyanamoDB staggingTableCreation=new StagingTableCreationOnDyanamoDB();
+    	staggingTableCreation.createTravelTypeStaggingTable();
+    	staggingTableCreation.createDomesticTravelStaggingTable();
+    	staggingTableCreation.createHospitalDataStaggingTable();
+    	staggingTableCreation.createInternationalTravelStaggingTable();
+    	staggingTableCreation.createSocialMediaStaggingTable();
+    	staggingTableCreation.createInternetDataStaggingTable();
+    }
+    
+    
+    
+    
+    
 }
