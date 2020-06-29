@@ -3,6 +3,7 @@ package corona.nexttargetarea.csvoperationimpl;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -11,10 +12,10 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+
 import corona.nexttargetarea.csvdto.HospitalDataDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
-import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 public class CsvOperationHospitalData implements CsvOperation {
@@ -35,25 +36,41 @@ public class CsvOperationHospitalData implements CsvOperation {
 	        	hospitalDataDto=new HospitalDataDto();
 	        	if(nextRecord[0]!=null)
 	        	{
-	        	hospitalDataDto.setAdhar_id((String)nextRecord[0]);
+	        	hospitalDataDto.setAdharId((String)nextRecord[0]);
 	        	}
 	        	if(nextRecord[1]!=null)
 	        	{
-	        	hospitalDataDto.setPassport_no((String)nextRecord[1]);
+	        	hospitalDataDto.setPassportNo((String)nextRecord[1]);
 	        	}
 	        	if(nextRecord[2]!=null)
 	        	{
-	        	hospitalDataDto.setPatient_disease_history((String)nextRecord[2]);
+	        	hospitalDataDto.setFirstName((String)nextRecord[2]);
+	        	}
+	        	if(nextRecord[3]!=null)
+	        	{
+	        	hospitalDataDto.setLastName((String)nextRecord[3]);
+	        	}
+	        	if(nextRecord[4]!=null)
+	        	{
+	        	hospitalDataDto.setPatientDiseaseHistory((String)nextRecord[4]);
 	        	}
 	        	try 
 	        	{
-	        	if(nextRecord[3]!=null)
+	        	if(nextRecord[5]!=null)
 		        {
-	             hospitalDataDto.setPatient_admitted_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[3]));
+	             hospitalDataDto.setPatientAdmittedDate(NextTargetAreaUtil.convertStringToDate((String)nextRecord[5]));
 		        }	
-	        	if(nextRecord[4]!=null)
+	        	if(nextRecord[6]!=null)
 	        	{
-	        	hospitalDataDto.setPatient_discharged_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[4]));
+	        	hospitalDataDto.setPatientDischargedDate(NextTargetAreaUtil.convertStringToDate((String)nextRecord[6]));
+	        	}
+	        	if(nextRecord[7]!=null)
+	        	{
+	        	hospitalDataDto.setCoronaSuscpected(Boolean.parseBoolean((String)nextRecord[7]));
+	        	}
+	        	if(nextRecord[8]!=null)
+	        	{
+	        	hospitalDataDto.setCoronaConfirmed(Boolean.parseBoolean((String)nextRecord[8]));
 	        	}
 				} 
 	        	catch (ParseException e) 
@@ -91,19 +108,27 @@ public class CsvOperationHospitalData implements CsvOperation {
 	{
 		PreparedStatement stmt=null;
 		String hospitalDataSql="insert into Hospital_Data_STG"
-				+ "(adhar_id, passport_no, patient_disease_history, patient_admitted_date, patient_discharged_date)"
-				+ "values(?,?,?,?,?)";
+				+ "(adhar_id, passport_no, first_name, last_name,"
+				+ "patient_disease_history, patient_admitted_date, "
+				+ "patient_discharged_date, is_corona_confirmed,is_corona_suspected )"
+				+ "values(?,?,?,?,?,?,?,?,?)";
+		
 	try 
 	{
 		stmt=connection.prepareStatement(hospitalDataSql);
 		for(HospitalDataDto dto: hospitalDataList)
 		{
-			stmt.setString(1, dto.getAdhar_id());
-			stmt.setString(2, dto.getPassport_no());
-			stmt.setString(3, dto.getPatient_disease_history());
-			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_admitted_date())));
-			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPatient_discharged_date())));
-		}	
+			stmt.setString(1, dto.getAdharId());
+			stmt.setString(2, dto.getPassportNo());
+			stmt.setString(3, dto.getFirstName());
+			stmt.setString(4, dto.getLastName());
+			stmt.setString(5, dto.getPatientDiseaseHistory());
+			stmt.setDate(6, new Date(dto.getPatientAdmittedDate().getTime()));
+			stmt.setDate(7, new Date(dto.getPatientDischargedDate().getTime()));
+			stmt.setBoolean(8, dto.isCoronaConfirmed());
+			stmt.setBoolean(9, dto.isCoronaSuscpected());
+			stmt.executeUpdate();
+		}
 	}
 	catch (SQLException e) 
 	{

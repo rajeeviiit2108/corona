@@ -54,7 +54,11 @@ public class DataProcessingTravelType implements DataProcessing
 	{
 		TravelTypeStagingDataDto travelTypeStagingDataDto=null;
 		long adharId=Long. parseLong(resultSet.getString(StaggingDataProcessingEnum.ADHAR_ID.toString()));
-		long passportNo=Long. parseLong(resultSet.getString(StaggingDataProcessingEnum.PASSPORT_NO.toString()));
+		long passportNo=0L;
+		if(0L!=resultSet.getLong(StaggingDataProcessingEnum.PASSPORT_NO.toString()))
+		{
+			passportNo=Long. parseLong(resultSet.getString(StaggingDataProcessingEnum.PASSPORT_NO.toString()));
+		}
 		boolean isDomesticTravel=Boolean.parseBoolean(resultSet.getString(StaggingDataProcessingEnum.IS_DOMESTIC_TRAVEL.toString()));
 		Date dateOfJourney=resultSet.getDate(StaggingDataProcessingEnum.DATE_OF_JOURNEY.toString());
 		travelTypeStagingDataDto=new TravelTypeStagingDataDto();
@@ -66,8 +70,11 @@ public class DataProcessingTravelType implements DataProcessing
 	}
 
 	@Override
-	public void validateData() {
-
+	public void validateData() 
+	{
+		System.out.println("----------------------------");
+		System.out.println("------TravelTypeStagingDataDto------");
+		
 		for(TravelTypeStagingDataDto travelData: travelTypeStagingDataList)
 		{
 			System.out.println("Aadhar id is::: " + travelData.getAdharId());

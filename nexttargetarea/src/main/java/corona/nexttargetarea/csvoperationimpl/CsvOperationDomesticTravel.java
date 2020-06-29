@@ -4,6 +4,7 @@ package corona.nexttargetarea.csvoperationimpl;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -16,7 +17,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.DomesticTravelDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
-import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 public class CsvOperationDomesticTravel implements CsvOperation {
@@ -101,12 +101,12 @@ public class CsvOperationDomesticTravel implements CsvOperation {
 			stmt=connection.prepareStatement(domesticTravelSql);
 		for(DomesticTravelDto dto:domesticTravelList )
 		{
-			
 			stmt.setString(1, dto.getAdhar_id());
 			stmt.setString(2, dto.getIs_domestic_travel());
 			stmt.setString(3, dto.getTravel_history());
-			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getTravel_date())));
+			stmt.setDate(4, new Date(dto.getTravel_date().getTime()));
 			stmt.setString(5, dto.getTravel_from());
+			stmt.executeUpdate();
 		}	
 	}
 		catch (SQLException e) 

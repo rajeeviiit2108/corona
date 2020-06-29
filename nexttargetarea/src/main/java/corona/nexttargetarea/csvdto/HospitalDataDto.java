@@ -5,42 +5,69 @@ import java.util.Date;
 public class HospitalDataDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private String adhar_id;
-	private String passport_no;
-	private String patient_disease_history;
-	private Date patient_admitted_date;
-	private Date patient_discharged_date;
+	private String adharId;
+	private String passportNo;
+	private String firstName; 
+	private String lastName; 
+	private String patientDiseaseHistory;
+	private Date patientAdmittedDate;
+	private Date patientDischargedDate;
+	private boolean isCoronaConfirmed;
+	private boolean isCoronaSuscpected;
 	
-	public String getAdhar_id() {
-		return adhar_id;
+	public String getAdharId() {
+		return adharId;
 	}
-	public void setAdhar_id(String adhar_id) {
-		this.adhar_id = adhar_id;
+	public void setAdharId(String adharId) {
+		this.adharId = adharId;
 	}
-	public String getPassport_no() {
-		return passport_no;
+	public String getPassportNo() {
+		return passportNo;
 	}
-	public void setPassport_no(String passport_no) {
-		this.passport_no = passport_no;
+	public void setPassportNo(String passportNo) {
+		this.passportNo = passportNo;
 	}
-	public String getPatient_disease_history() {
-		return patient_disease_history;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setPatient_disease_history(String patient_disease_history) {
-		this.patient_disease_history = patient_disease_history;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public Date getPatient_admitted_date() {
-		return patient_admitted_date;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setPatient_admitted_date(Date patient_admitted_date) {
-		this.patient_admitted_date = patient_admitted_date;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public Date getPatient_discharged_date() {
-		return patient_discharged_date;
+	public String getPatientDiseaseHistory() {
+		return patientDiseaseHistory;
 	}
-	public void setPatient_discharged_date(Date patient_discharged_date) {
-		this.patient_discharged_date = patient_discharged_date;
+	public void setPatientDiseaseHistory(String patientDiseaseHistory) {
+		this.patientDiseaseHistory = patientDiseaseHistory;
+	}
+	public Date getPatientAdmittedDate() {
+		return patientAdmittedDate;
+	}
+	public void setPatientAdmittedDate(Date patientAdmittedDate) {
+		this.patientAdmittedDate = patientAdmittedDate;
+	}
+	public Date getPatientDischargedDate() {
+		return patientDischargedDate;
+	}
+	public void setPatientDischargedDate(Date patientDischargedDate) {
+		this.patientDischargedDate = patientDischargedDate;
+	}
+	public boolean isCoronaConfirmed() {
+		return isCoronaConfirmed;
+	}
+	public void setCoronaConfirmed(boolean isCoronaConfirmed) {
+		this.isCoronaConfirmed = isCoronaConfirmed;
+	}
+	public boolean isCoronaSuscpected() {
+		return isCoronaSuscpected;
+	}
+	public void setCoronaSuscpected(boolean isCoronaSuscpected) {
+		this.isCoronaSuscpected = isCoronaSuscpected;
 	}
 	
-
 }

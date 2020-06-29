@@ -3,14 +3,13 @@ package corona.nexttargetarea.csvdto;
 import java.io.Serializable;
 import java.util.Date;
 public class InternationalTravelDto implements Serializable{
-
 	private static final long serialVersionUID = 1L;
-	
 	private String passport_no;
 	private String is_domestic_travel;
 	private String travel_history;
 	private Date travel_date;
 	private String travel_from;
+	
 	public String getPassport_no() {
 		return passport_no;
 	}

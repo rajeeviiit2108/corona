@@ -3,6 +3,7 @@ package corona.nexttargetarea.csvoperationimpl;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -15,7 +16,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.Social_MediaDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
-import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 import corona.nexttargetarea.util.NextTargetAreaUtil;
 public class CsvOperationSocialMedia implements CsvOperation {
@@ -35,25 +35,25 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	        while ((nextRecord = csvReader.readNext()) != null) 
 	        {
 	        	socialMediaDto=new Social_MediaDto();
-	        	if(nextRecord[0]!=null)
+	        	if(nextRecord[0]!=null && !("".equals(nextRecord[0])))
 	        	{
 	        		socialMediaDto.setAdhar_id((String)nextRecord[0]);
 	        	}
-	        	if(nextRecord[1]!=null)
+	        	if(nextRecord[1]!=null && !("".equals(nextRecord[1])))
 	        	{
 	        		socialMediaDto.setMobile_no((String)nextRecord[1]);
 	        	}
-	        	if(nextRecord[2]!=null)
+	        	if(nextRecord[2]!=null && !("".equals(nextRecord[2])))
 	        	{
 	        		socialMediaDto.setEmail_id((String)nextRecord[2]);
 	        	}
-	        	if(nextRecord[3]!=null)
+	        	if(nextRecord[3]!=null && !("".equals(nextRecord[3])))
 	        	{
 	        		socialMediaDto.setMedia_post((String)nextRecord[3]);
 	        	}
 	        	try 
 	        	{
-	        	if(nextRecord[4]!=null)
+	        	if(nextRecord[4]!=null && !("".equals(nextRecord[4])))
 		        {
 	        		socialMediaDto.setPost_date(NextTargetAreaUtil.convertStringToDate((String)nextRecord[4]));
 		        }					} 
@@ -91,7 +91,7 @@ public class CsvOperationSocialMedia implements CsvOperation {
 	public void pushDataToStaggingTable(Connection connection) 
 	{
 		PreparedStatement stmt=null;
-		String socialMediaSql="insert into Social_Media_Post_STG"
+		String socialMediaSql="insert into Social_Media_STG"
 				+ "(adhar_id, mobile_no, email_id, media_post, post_date)"
 				+ "values(?,?,?,?,?)";
 	try 
@@ -103,7 +103,17 @@ public class CsvOperationSocialMedia implements CsvOperation {
 			stmt.setString(2, dto.getMobile_no());
 			stmt.setString(3, dto.getEmail_id());
 			stmt.setString(4, dto.getMedia_post());
-			stmt.setDate(5, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getPost_date())));
+			try
+			{
+			if(null!=dto.getPost_date())
+			{
+			stmt.setDate(5, new Date(dto.getPost_date().getTime()));
+			}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 			stmt.executeUpdate();
 		}	
 	}

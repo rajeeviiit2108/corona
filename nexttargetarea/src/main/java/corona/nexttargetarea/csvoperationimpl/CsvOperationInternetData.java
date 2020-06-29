@@ -14,7 +14,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import corona.nexttargetarea.csvdto.InternetDataDto;
 import corona.nexttargetarea.customexception.CsvFileReadException;
 import corona.nexttargetarea.customexception.FileResolutionException;
-import corona.nexttargetarea.dbconnection.DataBaseConnection;
 import corona.nexttargetarea.interfaces.CsvOperation;
 
 public class CsvOperationInternetData implements CsvOperation{

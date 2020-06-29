@@ -9,9 +9,10 @@ public class NextTargetAreaStaggingOperations {
 	{
 		
 	}
-	public static void operationsOnTravelTypeStagingData(DataProcessing dataProcessingTravelType,Connection connection)
+	public static void operationsPerformedOnStagingData(
+			DataProcessing dataProcessing,Connection connection)
     {
-		dataProcessingTravelType.fetchDataFromStagingTable(connection);	
-		dataProcessingTravelType.validateData();
+		dataProcessing.fetchDataFromStagingTable(connection);	
+		dataProcessing.validateData();
     }
 }

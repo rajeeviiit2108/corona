@@ -3,6 +3,7 @@ package corona.nexttargetarea.csvoperationimpl;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -105,7 +106,7 @@ public class CsvOperationInternationalTravel implements CsvOperation {
 			stmt.setString(1, dto.getPassport_no());
 			stmt.setString(2, dto.getIs_domestic_travel());
 			stmt.setString(3, dto.getTravel_history());
-			stmt.setDate(4, java.sql.Date.valueOf(NextTargetAreaUtil.convertDateToString(dto.getTravel_date())));
+			stmt.setDate(4, new Date(dto.getTravel_date().getTime()));
 			stmt.setString(5, dto.getTravel_from());
 			stmt.executeUpdate();
 		}	
